@@ -1,0 +1,41 @@
+# ==========================================
+# LuckyPray 全局配置
+# ==========================================
+
+# 打开祈愿菜单的物品（手持右键）。可填 minecraft: 前缀或纯材质名
+guiItem: "NETHER_STAR"
+
+# 出金全服播报的等级（对应下方 level 的 index）
+broadcastLevel: "5"
+
+# 是否播放音效（预留）
+sound: true
+
+# ==========================================
+# 奖励等级定义
+# index   : 等级索引（数字字符串），对应 pools.yml 里 rewards 的键
+# name    : 图标文字
+# color   : 颜色代码（& 或 §）
+# probability : 基础概率权重，建议所有等级加起来 = 100
+# ==========================================
+level:
+  '1':
+    name: "&e✿"
+    color: "&f"
+    probability: 30
+  '2':
+    name: "&e✿✿"
+    color: "&a"
+    probability: 50
+  '3':
+    name: "&e✿✿✿"
+    color: "&b"
+    probability: 14.3
+  '4':
+    name: "&e✿✿✿✿"
+    color: "&d"
+    probability: 5.1
+  '5':
+    name: "&e✿✿✿✿✿"
+    color: "&c"
+    probability: 0.6
