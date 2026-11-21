@@ -1,0 +1,127 @@
+# ==========================================
+# 卡池配置（框架示例）
+# 复制一个 <pool> 块即可新增卡池。key 唯一，不能重复。
+# ==========================================
+pools:
+
+  # ---------- 示例卡池 1：点券池 ----------
+  "example_points":
+    name: "&c&l示例祈愿 - 点券池"
+    icon: "NETHER_STAR"           # Java GUI 图标材质
+    enabled: true
+    description: "&e示例卡池&7 | 消耗点券，出金播报"
+    diedLine: "2099-12-31-0-0-0"  # 截止日期 yyyy-MM-dd-H-m-s（解析失败=永不过期）
+    maxPrayCountPerday: 0         # 每池每日上限；0 或负数=无上限
+    resetHour: 4                  # 每日重置时间（小时），按此时间做水位线重置
+    resetMinute: 0
+
+    # 祈愿按钮：显示名 -> 一次抽数
+    prayMode:
+      "&l单抽": 1
+      "&l十连": 10
+
+    # 消耗配置
+    # mode: vault(经济) | points(点券) | item(物品) | free(免费)
+    prayItem:
+      mode: "points"
+      type: "minecraft:diamond"  # mode=item 时的物品
+      count: 1                   # 单抽消耗数量（十连自动 x10）
+      name: "点券"
+
+    # 保底规则（可多条，按 combos 从高到低判定）
+    regulars:
+      - name: "五星保底"
+        combos: 60               # 硬保底抽数
+        level: "5"               # 保底的等级
+        threshold: 45            # 从此抽数起概率递增
+        maxOrbitScore: 1         # 0=不会歪, 1=最多歪一次, 2=最多歪两次
+        customAimRewards: false  # 是否让玩家自选定轨
+        aimRewardsNum: 1
+        aimRewards: ["星辰碎片"] # 满定轨必出的奖品 index
+      - name: "四星保底"
+        combos: 10
+        level: "4"
+        threshold: 10
+        maxOrbitScore: 0
+        customAimRewards: false
+        aimRewardsNum: 0
+        aimRewards: []
+
+    # 各等级奖品池
+    # index 唯一；probability 为同等级内权重
+    # rewardItems.mode: item | nbt | command
+    #   nbt 模式: snbt 字段写 1.20.5+ 数据组件串（带不带 [ ] 都行），发放时拼接为
+    #     minecraft:give <玩家> <type>[<snbt>] <count>
+    #     例: snbt: "custom_name={\"color\":\"blue\",\"text\":\"星辰之剑\"},enchantments={levels:{\"minecraft:sharpness\":5}}"
+    #   command 模式: command 字段填命令，${player} 会被替换为玩家名
+    rewards:
+      '1':
+        - index: "骨头"
+          name: "骨头"
+          discription: "普通的骨头"
+          probability: 100
+          cmds: []
+          rewardItems:
+            - {mode: "item", type: "minecraft:bone", count: 5, name: "骨头x5"}
+      '2':
+        - index: "铁锭"
+          name: "铁锭"
+          discription: "一些铁锭"
+          probability: 100
+          rewardItems:
+            - {mode: "item", type: "minecraft:iron_ingot", count: 3, name: "铁锭x3"}
+      '3':
+        - index: "钻石"
+          name: "钻石"
+          discription: "闪亮的钻石"
+          probability: 100
+          rewardItems:
+            - {mode: "item", type: "minecraft:diamond", count: 2, name: "钻石x2"}
+      '4':
+        - index: "龙息"
+          name: "龙息"
+          discription: "四星奖励"
+          probability: 100
+          rewardItems:
+            - {mode: "item", type: "minecraft:dragon_breath", count: 1, name: "龙息"}
+      '5':
+        - index: "星辰碎片"
+          name: "§b星辰碎片"
+          discription: "五星大奖"
+          probability: 50
+          rewardItems:
+            - {mode: "item", type: "minecraft:nether_star", count: 1, name: "下界之星"}
+        - index: "远古宝石"
+          name: "§6远古宝石"
+          discription: "五星大奖（会歪的目标）"
+          probability: 50
+          rewardItems:
+            - {mode: "item", type: "minecraft:emerald", count: 8, name: "绿宝石x8"}
+      # NBT 物品示例（复制到对应等级下即可用）：
+      # - index: "星辰之剑"
+      #   name: "§b星辰之剑"
+      #   discription: "附魔自定义名钻石剑"
+      #   probability: 100
+      #   rewardItems:
+      #     - mode: "nbt"
+      #       type: "minecraft:diamond_sword"
+      #       count: 1
+      #       snbt: "custom_name={\"color\":\"aqua\",\"text\":\"星辰之剑\",italic:false},enchantments={levels:{\"minecraft:sharpness\":5}},unbreakable={}"
+
+  # ---------- 示例卡池 2：经济池（照此改成 vault） ----------
+  # "example_vault":
+  #   name: "&b&l示例祈愿 - 经济池"
+  #   icon: "DIAMOND"
+  #   enabled: true
+  #   description: "消耗曦荧币"
+  #   maxPrayCountPerday: 30
+  #   prayMode: { "&l单抽": 1, "&l十连": 10 }
+  #   prayItem: { mode: "vault", count: 100, name: "曦荧币" }
+  #   regulars: []
+  #   rewards:
+  #     '5':
+  #       - index: "大奖"
+  #         name: "大奖"
+  #         probability: 100
+  #         rewardItems:
+  #           - {mode: "item", type: "minecraft:diamond_block", count: 1, name: "钻石块"}
