@@ -1,0 +1,17 @@
+name: LuckyPray
+version: 1.0.0
+main: com.xinying.luckypray.LuckyPray
+api-version: '1.21'
+description: 幸运祈愿 - 原神式抽卡系统，支持 Java 箱子GUI 与基岩 Geyser 原生表单
+author: WorkBuddy
+softdepend: [Vault, PlayerPoints, Geyser-Spigot, floodgate]
+
+commands:
+  pray:
+    description: 打开祈愿菜单 / 管理
+    usage: /pray [menu|reload|pray|getitem]
+
+permissions:
+  luckypray.admin:
+    description: 管理权限
+    default: op
