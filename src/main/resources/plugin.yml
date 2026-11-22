@@ -3,7 +3,7 @@ version: 1.0.0
 main: com.xinying.luckypray.LuckyPray
 api-version: '1.21'
 description: 幸运祈愿 - 原神式抽卡系统，支持 Java 箱子GUI 与基岩 Geyser 原生表单
-author: WorkBuddy
+author: 'xxhh.'
 softdepend: [Vault, PlayerPoints, Geyser-Spigot, floodgate]
 
 commands:
