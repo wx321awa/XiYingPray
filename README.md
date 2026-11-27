@@ -31,7 +31,7 @@ GUI测试: /pray menu -> 触发 windowOpen 事件（箱子成功打开）
 - `prayItem.mode`: `vault`(经济) / `points`(点券) / `item`(物品) / `free`(免费)
 - `regulars`: 多条保底规则（combos 硬保底抽数、threshold 软保底起点、maxOrbitScore 定轨上限、aimRewards 定轨奖品）
 - `rewards`: 按等级 1-5 分组的奖品，每个奖品有权重 probability、奖励物品、自定义命令
-- 奖励物品 `mode`: `item`(普通物品) / `nbt`(NBT物品，当前用 give 兜底) / `command`(执行命令)
+- 奖励物品 `mode`: `item`(普通物品) / `nbt`(定制物品，1.20.5+ 数据组件语法，`snbt` 字段写组件串) / `command`(执行命令)
 
 ## 四、命令
 
@@ -49,12 +49,21 @@ GUI测试: /pray menu -> 触发 windowOpen 事件（箱子成功打开）
 
 ## 六、已知限制
 
-- **NBT 定制物品**：`mode:nbt` 当前用普通 `give` 兜底，没做完整 NBT 组件写入（1.20.5+ 用 data components）。如需自定义附魔书/改名物品，后续可接 NBT-API 或改成命令方式。
+- **NBT 定制物品**：`mode:nbt` 已实现 **1.20.5+ 数据组件语法**，零依赖（不需要 NBT-API）。在奖励条目的 `snbt` 字段写组件串（带不带方括号都行），插件会拼成 `minecraft:give <玩家> <物品>[<组件串>] <数量>` 由控制台执行。例如改名 + 附魔：
+
+  ```yaml
+  - mode: nbt
+    type: minecraft:netherite_sword
+    count: 1
+    snbt: "custom_name={\"color\":\"blue\",\"text\":\"星辰之剑\"},enchantments={levels:{\"minecraft:sharpness\":5}}"
+  ```
+
+  组件语法写错时发放会失败，后台日志和玩家聊天栏都会提示（"物品发放出错"）。注意仅适用于 1.20.5+ 服务器，旧版本请改用 `command` 模式。
 - **基岩表单**：Geyser API 已确认就绪，但测试环境没有真基岩客户端，UI 外观需你上基岩号目视确认。
 - **编译版本**：class 用 Java 25（major 69），与服务器 paper-api 一致，避免 ViaVersion 的 ASM 转换报错（用 JDK 27 直接编译会生成 71 导致插件加载失败，必须用 `-source 25 -target 25`）。
 
 ## 七、源码与构建
 
-- 源码目录：`LuckyPrayJava/src/main/java/com/xinying/luckypray/`
-- 最终 jar：`LuckyPrayJava/LuckyPray.jar`（44KB）
+- 源码目录：`src/main/java/com/xinying/luckypray/`
+- 最终 jar：`jars/LuckyPray.jar`（44KB）
 - 构建：因本地 JDK 24 与目标 API 版本不符，编译在 VPS 上用 JDK 27 + `-source/-target 25` 完成（脚本 `_compile_vps.py`）。
