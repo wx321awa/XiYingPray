@@ -55,10 +55,10 @@ GUI测试: /pray menu -> 触发 windowOpen 事件（箱子成功打开）
   - mode: nbt
     type: minecraft:netherite_sword
     count: 1
-    snbt: "custom_name={\"color\":\"blue\",\"text\":\"星辰之剑\"},enchantments={levels:{\"minecraft:sharpness\":5}}"
+    snbt: "custom_name={\"color\":\"blue\",\"text\":\"星辰之剑\"},enchantments={\"minecraft:sharpness\":5}"
   ```
 
-  组件语法写错时发放会失败，后台日志和玩家聊天栏都会提示（"物品发放出错"）。注意仅适用于 1.20.5+ 服务器，旧版本请改用 `command` 模式。
+  组件语法写错时发放会失败，后台日志和玩家聊天栏都会提示（"物品发放出错"）。注意：26.x（1.21.5+）附魔用**扁平写法** `enchantments={"minecraft:sharpness":5}`，旧的 `enchantments={levels:{...}}` 嵌套写法只适用于 1.20.5~1.21.4；更旧的服务器请改用 `command` 模式。
 - **基岩表单**：Geyser API 已确认就绪，但测试环境没有真基岩客户端，UI 外观需你上基岩号目视确认。
 - **编译版本**：class 用 Java 25（major 69），与服务器 paper-api 一致，避免 ViaVersion 的 ASM 转换报错（用 JDK 27 直接编译会生成 71 导致插件加载失败，必须用 `-source 25 -target 25`）。
 
